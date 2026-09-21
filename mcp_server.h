@@ -42,12 +42,12 @@ public:
     using ToolCallback = bool (*)(MCPArgs &args, char *out, size_t out_size, void *user_data);
     using ResourceCallback = bool (*)(char *out, size_t out_size, void *user_data);
 
-    class ToolBuilder {
+    class MCPTool {
     public:
-        ToolBuilder() : server_(nullptr), index_(-1) {}
+        MCPTool() : server_(nullptr), index_(-1) {}
 
         template<typename T>
-        ToolBuilder &param(const char *name, const char *description = nullptr, bool required = true) {
+        MCPTool &param(const char *name, const char *description = nullptr, bool required = true) {
             if (server_ && index_ >= 0)
                 server_->addParam(index_, name, description, typeName<T>(), required);
             return *this;
@@ -55,7 +55,7 @@ public:
 
     private:
         friend class MCPServer;
-        ToolBuilder(MCPServer *server, int index) : server_(server), index_(index) {}
+        MCPTool(MCPServer *server, int index) : server_(server), index_(index) {}
 
         template<typename T> static const char *typeName();
         MCPServer *server_;
@@ -64,7 +64,7 @@ public:
 
     explicit MCPServer(const char *name, const char *version = "0.1");
 
-    ToolBuilder tool(const char *name,
+    MCPTool tool(const char *name,
                      const char *description,
                      ToolCallback callback,
                      void *user_data = nullptr);
@@ -145,8 +145,8 @@ private:
     static void logf(const char *fmt, ...);
 };
 
-template<> inline const char *MCPServer::ToolBuilder::typeName<bool>() { return "boolean"; }
-template<> inline const char *MCPServer::ToolBuilder::typeName<int>() { return "integer"; }
-template<> inline const char *MCPServer::ToolBuilder::typeName<float>() { return "number"; }
-template<> inline const char *MCPServer::ToolBuilder::typeName<double>() { return "number"; }
-template<> inline const char *MCPServer::ToolBuilder::typeName<const char *>() { return "string"; }
+template<> inline const char *MCPServer::MCPTool::typeName<bool>() { return "boolean"; }
+template<> inline const char *MCPServer::MCPTool::typeName<int>() { return "integer"; }
+template<> inline const char *MCPServer::MCPTool::typeName<float>() { return "number"; }
+template<> inline const char *MCPServer::MCPTool::typeName<double>() { return "number"; }
+template<> inline const char *MCPServer::MCPTool::typeName<const char *>() { return "string"; }

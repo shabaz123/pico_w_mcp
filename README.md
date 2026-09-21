@@ -7,11 +7,13 @@ Here is how to use the code in a project, to provide (say) a relay and a tempera
 ```cpp
 MCPServer mcp("pico_w_mcp");
 
-mcp.tool(
+MCPServer::MCPTool relay = mcp.tool(
     "set_relay",
     "Turn the Pico W built-in LED on or off.",
     setRelay
-).param<bool>(
+);
+
+relay.param<bool>(
     "state",
     "True turns the relay on; false turns it off."
 );
@@ -42,7 +44,7 @@ static bool readTemperature(char *out, size_t out_size, void *) {
 }
 ```
 
-The library automatically builds tools/list and resources/list from the registered objects.
+The library automatically builds tools/list and resources/list from the registered objects. `MCPTool` is a small handle to a registered tool, so the tool and its parameters can be written as simple separate statements without duplicating the tool.
 
 The project has intentionally a small prototype parser, not a general-purpose JSON implementation.
 

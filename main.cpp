@@ -57,11 +57,13 @@ int main() {
            ip4addr_ntoa(netif_ip4_addr(&cyw43_state.netif[CYW43_ITF_STA])));
 
     // This is all the application developer needs for MCP.
-    mcp.tool(
+    MCPServer::MCPTool relay = mcp.tool(
         "set_relay",
         "Turn the Pico W built-in LED on or off.",
         setRelay
-    ).param<bool>(
+    );
+
+    relay.param<bool>(
         "state",
         "True turns the relay on; false turns it off."
     );

@@ -22,11 +22,11 @@ MCPServer::MCPServer(const char *name, const char *version)
     memset(resources_, 0, sizeof(resources_));
 }
 
-MCPServer::ToolBuilder MCPServer::tool(const char *name, const char *description,
+MCPServer::MCPTool MCPServer::tool(const char *name, const char *description,
                                       ToolCallback callback, void *user_data) {
     if (tool_count_ >= MCP_MAX_TOOLS || !name || !callback) {
         logf("MCP register tool FAILED: %s\n", name ? name : "(null)");
-        return ToolBuilder();
+        return MCPTool();
     }
     Tool &t = tools_[tool_count_];
     t.name = name;
@@ -36,7 +36,7 @@ MCPServer::ToolBuilder MCPServer::tool(const char *name, const char *description
     t.param_count = 0;
     int index = (int)tool_count_++;
     logf("MCP registered tool: %s\n", name);
-    return ToolBuilder(this, index);
+    return MCPTool(this, index);
 }
 
 bool MCPServer::resource(const char *uri, const char *name, const char *description,
