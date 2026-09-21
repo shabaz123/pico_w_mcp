@@ -1,0 +1,19 @@
+The software is very basic, just for test purposes, and requires the
+WLAN (WiFi) SSID and password to be supplied either within the source code,
+or as parameters during the build process.
+
+Install the Pi Pico C/C++ SDK and consult its documentation to see how to
+build code.
+
+Optionally, if you're using Windows and PowerShell, then you could
+edit the build_mcp.ps1 script to suit your needs (it has hard-coded paths
+in it) and then use it as follows:
+
+.\build_mcp.ps1 -Target wlan -WifiSsid "MyHomeWifi" -WifiPassword "Secret123"
+
+CLEAN BUILD:
+Delete the relevant build folder first, e.g.
+
+Remove-Item -Recurse -Force build-pico_w-Release
+or
+Remove-Item -Recurse -Force build-pico_w-Debug
